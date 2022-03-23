@@ -1,4 +1,4 @@
-package com.sslwireless.architechture.util
+package com.lastblade.payseracurrencyexchanger.util
 
 import android.app.Activity
 import android.content.Context
@@ -11,7 +11,7 @@ import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.sslwireless.architechture.R
+import com.lastblade.payseracurrencyexchanger.R
 
 /**
  * Created by Screenshot on 8/17/16.
@@ -43,7 +43,7 @@ class ProgressBarHandler {
         mProgressBar = ProgressBar(mContext, null, android.R.attr.progressBarStyleLarge)
         mProgressBar!!.isIndeterminate = true
         val colorr =
-            if (color != 0) color else ContextCompat.getColor(mContext, R.color.colorPrimary)
+            if (color != 0) color else ContextCompat.getColor(mContext, R.color.purple_500)
         mProgressBar!!.indeterminateDrawable.setColorFilter(colorr, PorterDuff.Mode.SRC_IN)
         val params = RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.MATCH_PARENT,
