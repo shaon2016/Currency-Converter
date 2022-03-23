@@ -14,7 +14,7 @@ class ApiHelper(val apiService: IApiService) {
         const val CALL_TYPE_PAGING = "paging"
 
         //endpoint
-        const val ENDPOINT_LOGIN = "latest"
+        const val ENDPOINT_CURRENCY_RATE = "latest"
     }
 
     suspend fun <T> getApiCallObservable(

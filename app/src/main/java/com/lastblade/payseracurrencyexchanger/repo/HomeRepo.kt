@@ -13,7 +13,7 @@ class HomeRepo @Inject constructor(private val dataManager: DataManager) {
         hashMap["access_key"] = "f52dd4e8f675947f568749314c1c4712"
         return dataManager.apiHelper.getApiCallObservable(
             ApiHelper.CALL_TYPE_GET,
-            ApiHelper.MOVIE_LIST,
+            ApiHelper.ENDPOINT_CURRENCY_RATE,
             hashMap
         )
     }
