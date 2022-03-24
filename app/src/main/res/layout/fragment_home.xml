@@ -38,16 +38,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-    <TextView
-        android:id="@+id/tvMyBalances"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/_1000_00_eur"
-        android:textSize="20sp"
-        android:textStyle="bold"
+    <androidx.recyclerview.widget.RecyclerView
+        app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        android:layout_marginTop="20dp"
+        android:id="@+id/lvMyBalances"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -57,8 +54,8 @@
         android:text="CURRENCY EXCHANGE"
         android:textColor="@color/black300"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/tvMyBalances"
-        app:layout_constraintTop_toBottomOf="@+id/tvMyBalances" />
+        app:layout_constraintStart_toStartOf="@+id/lvMyBalances"
+        app:layout_constraintTop_toBottomOf="@+id/lvMyBalances" />
 
     <ImageView
         android:id="@+id/imageView"
