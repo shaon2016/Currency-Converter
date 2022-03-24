@@ -1,8 +1,11 @@
 package com.lastblade.payseracurrencyexchanger.view.fragment.home
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import com.lastblade.payseracurrencyexchanger.R
 import com.lastblade.payseracurrencyexchanger.databinding.FragmentHomeBinding
@@ -17,12 +20,37 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         get() = FragmentHomeBinding::inflate
 
     override fun viewRelatedTask() {
-        vm.currencyRateResponse.observe(viewLifecycleOwner) {
+        loadExchangeRateIntoSpinner()
+
+        vm.myBalance.observe(this) {
             it?.let {
+                binding.tvMyBalances.text = "$it USD"
+            }
+        }
+        vm.selectedCurrencyValue.observe(this) {
+            it?.let {
+                binding.tvReceiveCurrency.text = it.toString()
             }
         }
 
-        loadExchangeRateIntoSpinner()
+        vm.calculatedValue.observe(this) {
+            it?.let {
+                showCalculatedRateDialog(it)
+            }
+        }
+
+        binding.btnSubmit.setOnClickListener {
+            val selectedConvertedCurrency =
+                resources.getStringArray(R.array.currency2)[binding.spinReceive.selectedItemPosition]
+            vm.calculateCurrency(binding.evSell.text.toString(), selectedConvertedCurrency)
+        }
+    }
+
+    private fun showCalculatedRateDialog(calculatedValue: Double) {
+        val dialog = AlertDialog.Builder(requireContext())
+        dialog.setMessage("Calculated value $calculatedValue")
+
+        dialog.show()
     }
 
     private fun loadExchangeRateIntoSpinner() {

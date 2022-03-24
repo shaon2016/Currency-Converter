@@ -10,7 +10,7 @@ class HomeRepo @Inject constructor(private val dataManager: DataManager) {
     suspend fun fetchExchangeRateAPI(
     ): Response<ResponseBody> {
         val hashMap = HashMap<String, String>()
-        hashMap["access_key"] = "f52dd4e8f675947f568749314c1c4712"
+        hashMap["apikey"] = "a3212fc45e784360bbc882ea2e16136a"
         return dataManager.apiHelper.getApiCallObservable(
             ApiHelper.CALL_TYPE_GET,
             ApiHelper.ENDPOINT_CURRENCY_RATE,
