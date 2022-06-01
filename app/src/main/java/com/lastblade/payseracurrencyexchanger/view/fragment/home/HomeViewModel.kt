@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.lastblade.payseracurrencyexchanger.data.model.CalculatedValueModel
 import com.lastblade.payseracurrencyexchanger.data.model.MyBalanceModel
-import com.lastblade.payseracurrencyexchanger.repo.HomeRepo
+import com.lastblade.payseracurrencyexchanger.repo.home.HomeRepo
 import com.lastblade.payseracurrencyexchanger.view.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

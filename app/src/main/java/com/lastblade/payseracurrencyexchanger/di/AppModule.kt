@@ -1,24 +1,33 @@
 package com.lastblade.payseracurrencyexchanger.di
 
+import android.content.Context
 import androidx.viewbinding.BuildConfig
+import com.lastblade.payseracurrencyexchanger.data.db.RoomHelper
+import com.lastblade.payseracurrencyexchanger.data.network.ApiEndPoint
 import com.lastblade.payseracurrencyexchanger.data.network.ApiHelper
 import com.lastblade.payseracurrencyexchanger.data.network.IApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+    open var baseUrl = ApiEndPoint.BASE_URL
 
     @Provides
     @Singleton
@@ -56,7 +65,7 @@ object AppModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://api.currencyfreaks.com/")
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .client(okHttpClient)
@@ -69,9 +78,25 @@ object AppModule {
         return retrofit.create(IApiService::class.java)
     }
 
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class RemoteApiHelper
+
     @Provides
     @Singleton
     fun provideApiHelper(apiService: IApiService): ApiHelper {
         return ApiHelper(apiService)
     }
+
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class LocalRoomHelper
+
+
+    @Provides
+    @Singleton
+    fun provideRoomHelper(@ApplicationContext context: Context): RoomHelper {
+        return RoomHelper(context)
+    }
+
 }
