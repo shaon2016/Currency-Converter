@@ -1,0 +1,28 @@
+{
+  "success": true,
+  "terms": "https://currencylayer.com/terms",
+  "privacy": "https://currencylayer.com/privacy",
+  "historical": true,
+  "date": "2010-05-19",
+  "timestamp": 1274313599,
+  "source": "USD",
+  "quotes": {
+    "USDUSD": 1,
+    "USDAED": 3.67,
+    "USDAFN": 78.12,
+    "USDALL": 110.47,
+    "USDAMD": 476.46,
+    "USDANG": 1.74,
+    "USDAOA": 496.74,
+    "USDARS": 59.51,
+    "USDAUD": 1.45,
+    "USDBTC": 0.00011,
+    "USDEUR": 0.89,
+    "USDPKR": 154.96,
+    "USDUYU": 37.48,
+    "USDUZS": 9446.94,
+    "USDVEF": 0.809694,
+    "USDVND": 23208.50,
+    "USDYEN": 108.19
+  }
+}

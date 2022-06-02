@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class Currencies(
     @PrimaryKey
-    var id: Long,
+    var id: Long = 0,
     val currencies: HashMap<String, String>?,
 )

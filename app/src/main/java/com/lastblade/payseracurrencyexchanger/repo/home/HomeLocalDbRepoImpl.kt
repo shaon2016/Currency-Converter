@@ -6,23 +6,30 @@ import com.lastblade.payseracurrencyexchanger.data.db.currencies.Currencies
 import com.lastblade.payseracurrencyexchanger.data.db.currencies.CurrenciesDao
 import com.lastblade.payseracurrencyexchanger.data.db.rates.CurrencyRate
 import com.lastblade.payseracurrencyexchanger.data.db.rates.CurrencyRateDao
+import com.lastblade.payseracurrencyexchanger.di.ApplicationScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeLocalDbRepoImpl @Inject constructor(
     private val currenciesDao: CurrenciesDao,
-    private val currencyRateDao: CurrencyRateDao
+    private val currencyRateDao: CurrencyRateDao,
+    @ApplicationScope private val externalScope: CoroutineScope,
 ) :
     HomeLocalDbRepo {
     override suspend fun dbAllCurrencies() = currenciesDao.all()
 
     override suspend fun insert(currencies: Currencies) {
-        currenciesDao.insert(currencies)
+        externalScope.launch(Dispatchers.IO) {
+            currenciesDao.insert(currencies)
+        }
     }
 
     override suspend fun insert(rate: CurrencyRate) {
-        currencyRateDao.insert(rate)
+        externalScope.launch(Dispatchers.IO) {
+            currencyRateDao.insert(rate)
+        }
     }
 
     override suspend fun dbAllRates() = currencyRateDao.all()

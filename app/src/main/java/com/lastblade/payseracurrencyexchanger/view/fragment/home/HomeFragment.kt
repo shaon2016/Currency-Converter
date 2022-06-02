@@ -1,5 +1,6 @@
 package com.lastblade.payseracurrencyexchanger.view.fragment.home
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -8,6 +9,7 @@ import com.lastblade.payseracurrencyexchanger.R
 import com.lastblade.payseracurrencyexchanger.databinding.FragmentHomeBinding
 import com.lastblade.payseracurrencyexchanger.view.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONObject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -18,6 +20,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun viewRelatedTask() {
         vm.loadCurrencies()
+
+
+
     }
 
 

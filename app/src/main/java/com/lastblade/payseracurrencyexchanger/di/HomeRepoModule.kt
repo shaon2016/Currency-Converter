@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
 import javax.inject.Singleton
 
 @Module
@@ -14,10 +15,13 @@ import javax.inject.Singleton
 class HomeRepoModule {
     @Singleton
     @Provides
-    fun provideHomeLocalRepo(@AppModule.LocalRoomHelper roomHelper: RoomHelper): HomeLocalDbRepo {
+    fun provideHomeLocalRepo(
+        @AppModule.LocalRoomHelper roomHelper: RoomHelper,
+        @ApplicationScope coroutineScope: CoroutineScope,
+    ): HomeLocalDbRepo {
         val currenciesDao = roomHelper.getDatabase().currenciesDao()
         val currencyRateDao = roomHelper.getDatabase().currencyRateDao()
-        return HomeLocalDbRepoImpl(currenciesDao, currencyRateDao )
+        return HomeLocalDbRepoImpl(currenciesDao, currencyRateDao, coroutineScope)
     }
 
     @Singleton
@@ -30,7 +34,7 @@ class HomeRepoModule {
     @Provides
     fun provideHomeRepo(
         homeLocalRepo: HomeLocalDbRepo,
-        homeNetworkRepo: HomeRemoteRepo
+        homeNetworkRepo: HomeRemoteRepo,
     ): HomeRepo {
         return HomeRepoImpl(homeLocalRepo, homeNetworkRepo)
     }
