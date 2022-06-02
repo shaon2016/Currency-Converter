@@ -17,7 +17,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         get() = FragmentHomeBinding::inflate
 
     override fun viewRelatedTask() {
-
+        vm.loadCurrencies()
     }
 
 

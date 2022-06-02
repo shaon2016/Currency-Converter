@@ -84,6 +84,7 @@ object AppModule {
 
     @Provides
     @Singleton
+    @RemoteApiHelper
     fun provideApiHelper(apiService: IApiService): ApiHelper {
         return ApiHelper(apiService)
     }
@@ -95,6 +96,7 @@ object AppModule {
 
     @Provides
     @Singleton
+    @LocalRoomHelper
     fun provideRoomHelper(@ApplicationContext context: Context): RoomHelper {
         return RoomHelper(context)
     }

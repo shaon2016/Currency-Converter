@@ -1,7 +1,12 @@
 package com.lastblade.payseracurrencyexchanger.data.db.rates
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity
-data class CurrencyRate(    val base: String,
-                            val rates: HashMap<String, Double>)
+data class CurrencyRate(
+    @PrimaryKey
+    var id: Long,
+    val base: String,
+    val rates: HashMap<String, Double>?,
+)

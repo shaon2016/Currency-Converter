@@ -15,8 +15,8 @@ class HomeRepoModule {
     @Singleton
     @Provides
     fun provideHomeLocalRepo(@AppModule.LocalRoomHelper roomHelper: RoomHelper): HomeLocalDbRepo {
-        val currenciesDao = roomHelper.getDatabase().currenciesDao
-        val currencyRateDao = roomHelper.getDatabase().currencyRateDao
+        val currenciesDao = roomHelper.getDatabase().currenciesDao()
+        val currencyRateDao = roomHelper.getDatabase().currencyRateDao()
         return HomeLocalDbRepoImpl(currenciesDao, currencyRateDao )
     }
 

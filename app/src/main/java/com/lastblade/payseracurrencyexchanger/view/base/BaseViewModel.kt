@@ -14,6 +14,9 @@ abstract class BaseViewModel : ViewModel() {
     private val _isLoading = SingleLiveEvent<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    var errorMessage = SingleLiveEvent<String>()
+
+
     fun onLoading(isLoader: Boolean) {
         _isLoading.value = isLoader
     }
