@@ -8,6 +8,6 @@ interface HomeLocalDbRepo {
     fun dbAllCurrencies(): LiveData<Currencies>
     suspend fun insert(currencies: Currencies)
 
-    fun dbAllRates(): LiveData<CurrencyRate>
+    fun dbAllRates(): CurrencyRate
     suspend fun insert(rate: CurrencyRate)
 }

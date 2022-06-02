@@ -1,7 +1,5 @@
 package com.lastblade.payseracurrencyexchanger.repo.home
 
-import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.LiveData
 import com.lastblade.payseracurrencyexchanger.data.db.currencies.Currencies
 import com.lastblade.payseracurrencyexchanger.data.db.currencies.CurrenciesDao
 import com.lastblade.payseracurrencyexchanger.data.db.rates.CurrencyRate
