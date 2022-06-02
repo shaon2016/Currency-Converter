@@ -8,9 +8,9 @@ import javax.inject.Inject
 
 class HomeRepoImpl @Inject constructor(
     private val homeLocalDbRepo: HomeLocalDbRepo,
-    private val homeRemoteRepo: HomeRemoteRepo
+    private val homeRemoteRepo: HomeRemoteRepo,
 ) : HomeRepo {
-    override suspend fun dbAllCurrencies() = homeLocalDbRepo.dbAllCurrencies()
+    override fun dbAllCurrencies() = homeLocalDbRepo.dbAllCurrencies()
 
     override suspend fun insert(currencies: Currencies) {
         homeLocalDbRepo.insert(currencies)
@@ -20,7 +20,7 @@ class HomeRepoImpl @Inject constructor(
         homeLocalDbRepo.insert(rate)
     }
 
-    override suspend fun dbAllRates() = homeLocalDbRepo.dbAllRates()
+    override  fun dbAllRates() = homeLocalDbRepo.dbAllRates()
 
     override suspend fun getCurrencies() = homeRemoteRepo.getCurrencies()
 

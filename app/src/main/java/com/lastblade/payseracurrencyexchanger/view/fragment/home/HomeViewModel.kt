@@ -2,6 +2,8 @@ package com.lastblade.payseracurrencyexchanger.view.fragment.home
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.lastblade.payseracurrencyexchanger.data.Result
@@ -22,6 +24,8 @@ class HomeViewModel @Inject constructor(
     private val homeRepoImpl: HomeRepoImpl,
     @ApplicationContext val context: Context,
 ) : BaseViewModel() {
+
+    val currencies: LiveData<Currencies> get() = homeRepoImpl.dbAllCurrencies()
 
     fun loadCurrencies() {
 //        viewModelScope.launch {
@@ -54,8 +58,9 @@ class HomeViewModel @Inject constructor(
         val map = data.serializeToMap()
 
         viewModelScope.launch {
-            homeRepoImpl.insert(Currencies(currencies = map as HashMap<String, String> ))
+            homeRepoImpl.insert(Currencies(currencies = map as HashMap<String, String>))
         }
+
     }
 
     fun getCurrencyList(context: Context): CurrenciesResponse {

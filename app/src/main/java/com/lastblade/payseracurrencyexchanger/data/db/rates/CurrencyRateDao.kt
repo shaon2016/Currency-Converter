@@ -12,5 +12,5 @@ interface CurrencyRateDao {
     suspend fun insert(rate: CurrencyRate)
 
     @Query("select * from CurrencyRate")
-    fun all() : LiveData<List<CurrencyRate>>
+    fun all() : LiveData<CurrencyRate>
 }
