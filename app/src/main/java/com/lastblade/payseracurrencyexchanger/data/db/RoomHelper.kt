@@ -8,7 +8,7 @@ class RoomHelper(private val context: Context)  {
     private val db = Room.databaseBuilder(context, RoomDB::class.java, "currency_converter_db").build()
 
 
-    fun getDatabase(): RoomDb {
+    fun getDatabase(): RoomDB {
         return db
     }
 }

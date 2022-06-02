@@ -6,177 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".view.fragment.home.HomeFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/evAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_200"
+        android:hint="##.##"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp"
+        android:gravity="right"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <Spinner
+        android:layout_marginTop="8dp"
+        android:id="@+id/spinCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/currency_converter"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/toolbar"
-        app:layout_constraintTop_toTopOf="@+id/toolbar" />
-
-    <TextView
-
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/my_balances"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/evAmount" />
 
     <androidx.recyclerview.widget.RecyclerView
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        android:layout_marginTop="20dp"
-        android:id="@+id/lvMyBalances"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="CURRENCY EXCHANGE"
-        android:textColor="@color/black300"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/lvMyBalances"
-        app:layout_constraintTop_toBottomOf="@+id/lvMyBalances" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/ic_baseline_arrow_upward_24"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/ic_baseline_arrow_downward_24"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:tint="@android:color/holo_green_light" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20sp"
-        android:text="@string/sell"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Receive"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toTopOf="@+id/imageView2" />
-
-    <View
-        android:id="@+id/view2"
+        android:layout_marginTop="8dp"
+        android:id="@+id/rvExchangeRates"
         android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/black300"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/black300"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/spinSell"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView3" />
-
-    <EditText
-        android:id="@+id/evSell"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:background="@android:color/transparent"
-        android:gravity="end"
-        android:hint="0.0"
-        android:inputType="numberDecimal"
-        android:maxLines="1"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/spinSell"
-        app:layout_constraintEnd_toStartOf="@+id/spinSell"
-        app:layout_constraintTop_toTopOf="@+id/spinSell" />
-
-
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/spinReceive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView4" />
-
-    <TextView
-        android:id="@+id/tvReceiveCurrency"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:background="@android:color/transparent"
-        android:gravity="end"
-        android:hint="100"
-        android:textSize="16sp"
-        android:inputType="numberDecimal"
-        android:maxLines="1"
-        android:textColor="@android:color/holo_green_light"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/spinReceive"
-        app:layout_constraintEnd_toStartOf="@+id/spinReceive"
-        app:layout_constraintTop_toTopOf="@+id/spinReceive" />
-
-    <Button
-        android:id="@+id/btnSubmit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/submit"
-        android:textSize="16sp"
+        tools:itemCount="4"
+        tools:listitem="@layout/rv_item_row"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2" />
+        app:layout_constraintTop_toBottomOf="@+id/spinCurrency" />
 </androidx.constraintlayout.widget.ConstraintLayout>
