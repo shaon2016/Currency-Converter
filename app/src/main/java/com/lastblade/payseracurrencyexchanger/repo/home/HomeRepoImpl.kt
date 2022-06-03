@@ -2,15 +2,14 @@ package com.lastblade.payseracurrencyexchanger.repo.home
 
 import com.lastblade.payseracurrencyexchanger.data.db.currencies.Currencies
 import com.lastblade.payseracurrencyexchanger.data.db.rates.CurrencyRate
-import com.lastblade.payseracurrencyexchanger.di.ApplicationScope
-import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
 class HomeRepoImpl @Inject constructor(
     private val homeLocalDbRepo: HomeLocalDbRepo,
     private val homeRemoteRepo: HomeRemoteRepo,
 ) : HomeRepo {
-    override fun dbAllCurrencies() = homeLocalDbRepo.dbAllCurrencies()
+    override fun dbObserveAllCurrencies() = homeLocalDbRepo.dbObserveAllCurrencies()
+    override suspend fun allCurrenciesDb() = homeLocalDbRepo.allCurrenciesDb()
 
     override suspend fun insert(currencies: Currencies) {
         homeLocalDbRepo.insert(currencies)

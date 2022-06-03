@@ -5,7 +5,8 @@ import com.lastblade.payseracurrencyexchanger.data.db.currencies.Currencies
 import com.lastblade.payseracurrencyexchanger.data.db.rates.CurrencyRate
 
 interface HomeLocalDbRepo {
-    fun dbAllCurrencies(): LiveData<Currencies>
+    fun dbObserveAllCurrencies(): LiveData<Currencies>
+    suspend fun allCurrenciesDb(): Currencies
     suspend fun insert(currencies: Currencies)
 
     fun dbAllRates(): CurrencyRate

@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.lastblade.payseracurrencyexchanger.R
 import com.lastblade.payseracurrencyexchanger.databinding.FragmentHomeBinding
 import com.lastblade.payseracurrencyexchanger.view.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,9 +23,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         get() = FragmentHomeBinding::inflate
 
     override fun viewRelatedTask() {
-        vm.loadCurrencies()
-        vm.fetchCurrencyRate()
-
         setRecyclerView()
 
         binding.evAmount.doOnTextChanged { text, start, before, count ->
@@ -39,11 +36,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
 
-        vm.currencies.observe(this) {
+        vm.currenciesAsObserve.observe(this) {
             it?.let {
                 it.currencies?.let { currencies ->
                     setCurrenciesSpinner(currencies)
                 }
+            }
+        }
+
+        vm.isLoading.observe(this) {
+            it?.let {
+                if (it) {
+                    binding.pb.visibility = View.VISIBLE
+                } else
+                    binding.pb.visibility = View.GONE
+            }
+        }
+        vm.errorMessage.observe(this) {
+            it?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             }
         }
     }

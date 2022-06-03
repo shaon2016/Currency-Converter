@@ -60,7 +60,7 @@ class CurrencyExchangeRatesAdapter(
     class CurrencyRatesViewHolder(val view: RvItemRowBinding) : RecyclerView.ViewHolder(view.root) {
 
         fun bind(amount: Double, unitRate: CurrencyUnitRate) {
-            val conversion = String.format("%.3f", unitRate.unitRate * amount)
+            val conversion = String.format("%.2f", unitRate.unitRate * amount)
             view.tvExchangeRates.text = "${unitRate.toCurrency}\n${conversion}"
         }
 

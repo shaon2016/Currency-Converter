@@ -19,7 +19,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import javax.inject.Inject
+import com.lastblade.payseracurrencyexchanger.data.Result
+import com.lastblade.payseracurrencyexchanger.util.AppConstants
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -28,58 +31,74 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel() {
     lateinit var selectedCurrency: String
 
-    val currencies: LiveData<Currencies> get() = homeRepoImpl.dbAllCurrencies()
+    val currenciesAsObserve: LiveData<Currencies> get() = homeRepoImpl.dbObserveAllCurrencies()
 
     private val _convertedCurrencyList = MutableLiveData<List<CurrencyUnitRate>>()
     val convertedCurrencyList: LiveData<List<CurrencyUnitRate>> get() = _convertedCurrencyList
 
-    fun loadCurrencies() {
+    init {
+        loadCurrencies()
+        loadCurrencyRate()
+    }
+
+    fun loadFakeCurrencies() {
+        //        val data = getCurrencyList(context)
+//
+//        val map = data.serializeToMap()
+//
 //        viewModelScope.launch {
-//            onLoading(true)
-//            try {
-//                when (val result = homeRepoImpl.getCurrencies()) {
-//                    is Result.Success -> {
-//                        val jo = JSONObject(result.data.toString())
-//
-//                        val hashMap = HashMap<String, String>()
-//                        jo.keys().forEach {
-//                            hashMap[it] = jo.getString(it)
-//                        }
-//
-//                        homeRepoImpl.insert(Currencies(currencies = hashMap))
-//                    }
-//                    is Result.Error -> {
-//                        errorMessage.value = result.exception.message
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//
-//            onLoading(false)
+//            homeRepoImpl.insert(Currencies(currencies = map as HashMap<String, String>))
 //        }
-
-        val data = getCurrencyList(context)
-
-        val map = data.serializeToMap()
-
-        viewModelScope.launch {
-            homeRepoImpl.insert(Currencies(currencies = map as HashMap<String, String>))
-        }
-
     }
 
     fun getCurrencyList(context: Context): CurrenciesResponse {
         return Gson().fromJson(FileUtils.readFileInStringFromRaw(context,
             "sample_currency_list_response"), CurrenciesResponse::class.java)
-
     }
 
-    fun loadCurrencyRate() {
+    private fun loadCurrencies() = viewModelScope.launch(Dispatchers.IO) {
+        val currencies = homeRepoImpl.allCurrenciesDb()
 
+        if (currencies?.currencies == null || currencies.currencies.isEmpty()) {
+            fetchCurrencies()
+        }
     }
 
-    fun fetchCurrencyRate() {
+    private fun fetchCurrencies() = viewModelScope.launch {
+        onLoading(true)
+        try {
+            when (val result = homeRepoImpl.getCurrencies()) {
+                is Result.Success -> {
+                    val map = result.data.serializeToMap()
+                    homeRepoImpl.insert(Currencies(currencies = map as HashMap<String, String>))
+                }
+                is Result.Error -> {
+                    errorMessage.value = result.exception.message
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        onLoading(false)
+    }
+
+    private fun loadCurrencyRate() = viewModelScope.launch(Dispatchers.IO) {
+        val currencyRate = homeRepoImpl.dbAllRates()
+
+        if (currencyRate?.rates == null || currencyRate.rates.isEmpty()) {
+            fetchCurrencyRate()
+        } else {
+            val serverTimestamp = currencyRate.timestamp ?: 0L
+            val diff = System.currentTimeMillis() - serverTimestamp
+
+            if (diff > AppConstants.DEVICE_CACHE_EXPIRY) {
+                fetchCurrencyRate()
+            }
+        }
+    }
+
+    fun fakeCurrencyRate() {
         val data = getCurrencyRates(context)
         val map = data.rates.serializeToMap()
 
@@ -89,25 +108,48 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun fetchCurrencyRate() = viewModelScope.launch {
+        onLoading(true)
+
+        try {
+            when (val result = homeRepoImpl.getCurrencyRate()) {
+                is Result.Success -> {
+                    val map = result.data.rates.serializeToMap()
+
+                    homeRepoImpl.insert(CurrencyRate(timestamp = System.currentTimeMillis(),
+                        base = result.data.base,
+                        rates = map as HashMap<String, Double>))
+                }
+                is Result.Error -> {
+                    errorMessage.value = result.exception.message
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        onLoading(false)
+    }
+
     fun getCurrencyRates(context: Context): CurrencyRateResponse {
         return Gson().fromJson(FileUtils.readFileInStringFromRaw(context,
             "sample_currency_rates_response"), CurrencyRateResponse::class.java)
     }
 
-     fun convertUnitRate()  = viewModelScope.launch(Dispatchers.IO) {
-         val toConvertedRates = mutableListOf<CurrencyUnitRate>()
+    fun convertUnitRate() = viewModelScope.launch(Dispatchers.IO) {
+        val toConvertedRates = mutableListOf<CurrencyUnitRate>()
 
-         val currencyRates = homeRepoImpl.dbAllRates()
+        val currencyRates = homeRepoImpl.dbAllRates()
 
-         currencyRates.rates?.keys?.forEach { toCurrency ->
-             val rateTo = currencyRates.rates[toCurrency] ?: 0.0
-             val rateFrom = currencyRates.rates[selectedCurrency] ?: 0.0
-             val convertedRate = rateTo / rateFrom
+        currencyRates?.rates?.keys?.forEach { toCurrency ->
+            val rateTo = currencyRates.rates[toCurrency] ?: 0.0
+            val rateFrom = currencyRates.rates[selectedCurrency] ?: 0.0
+            val convertedRate = rateTo / rateFrom
 
-             toConvertedRates.add(CurrencyUnitRate(toCurrency = toCurrency,
-                 unitRate = convertedRate))
-         }
+            toConvertedRates.add(CurrencyUnitRate(toCurrency = toCurrency,
+                unitRate = convertedRate))
+        }
 
-         _convertedCurrencyList.postValue(toConvertedRates)
-     }
+        _convertedCurrencyList.postValue(toConvertedRates)
+    }
 }

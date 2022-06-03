@@ -13,7 +13,6 @@ import javax.inject.Inject
 class HomeRemoteRepoImpl @Inject constructor(private val apiHelper : ApiHelper) : BaseRepo(), HomeRemoteRepo {
     override suspend fun getCurrencies(): Result<CurrenciesResponse> {
         val map = HashMap<String, String>()
-        map["app_id"] = AppConstants.APP_ID
 
         return try {
             val result =
@@ -34,6 +33,7 @@ class HomeRemoteRepoImpl @Inject constructor(private val apiHelper : ApiHelper) 
 
     override suspend fun getCurrencyRate(): Result<CurrencyRateResponse> {
         val map = HashMap<String, String>()
+        map["app_id"] = AppConstants.APP_ID
 
         return try {
             val result =

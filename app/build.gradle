@@ -69,7 +69,7 @@ dependencies {
 
     // Okhttp3
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
 
     // navigation component
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'

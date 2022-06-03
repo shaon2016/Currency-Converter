@@ -16,7 +16,8 @@ class HomeLocalDbRepoImpl @Inject constructor(
     @ApplicationScope private val externalScope: CoroutineScope,
 ) :
     HomeLocalDbRepo {
-    override fun dbAllCurrencies() = currenciesDao.all()
+    override fun dbObserveAllCurrencies() = currenciesDao.allAsObserve()
+    override suspend fun allCurrenciesDb() = currenciesDao.allCurrencies()
 
     override suspend fun insert(currencies: Currencies) {
         externalScope.launch(Dispatchers.IO) {
