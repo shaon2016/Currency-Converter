@@ -33,4 +33,9 @@ class HomeLocalDbRepoImpl @Inject constructor(
 
     override  fun dbAllRates() = currencyRateDao.all()
 
+    override suspend fun deleteCurrency() {
+        externalScope.launch(Dispatchers.IO) {
+            currenciesDao.deleteAll()
+        }
+    }
 }

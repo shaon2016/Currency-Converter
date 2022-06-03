@@ -16,8 +16,7 @@ abstract class BaseDaoTest {
     var instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var context: Context
-    private lateinit var db: RoomDB
-//    private lateinit var dao: CartDao
+    lateinit var db: RoomDB
 
     @Before
     fun setup() {
@@ -25,7 +24,6 @@ abstract class BaseDaoTest {
         db = Room.inMemoryDatabaseBuilder(context, RoomDB::class.java)
             .allowMainThreadQueries()
             .build()
-//        dao = db.cartDao()
     }
 
     @After

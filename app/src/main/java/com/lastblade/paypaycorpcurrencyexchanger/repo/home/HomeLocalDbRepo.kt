@@ -11,4 +11,6 @@ interface HomeLocalDbRepo {
 
     fun dbAllRates(): CurrencyRate
     suspend fun insert(rate: CurrencyRate)
+
+    suspend fun deleteCurrency()
 }

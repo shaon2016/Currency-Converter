@@ -1,10 +1,7 @@
 package com.lastblade.paypaycorpcurrencyexchanger.data.db.currencies
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface CurrenciesDao {
@@ -16,4 +13,7 @@ interface CurrenciesDao {
 
     @Query("select * from Currencies")
     fun allCurrencies() : Currencies
+
+    @Query("delete from currencies")
+    fun deleteAll()
 }
