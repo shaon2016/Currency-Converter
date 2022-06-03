@@ -21,9 +21,11 @@ class HomeRepoImpl @Inject constructor(
 
     override  fun dbAllRates() = homeLocalDbRepo.dbAllRates()
 
+
     override suspend fun getCurrencies() = homeRemoteRepo.getCurrencies()
 
     override suspend fun getCurrencyRate() = homeRemoteRepo.getCurrencyRate()
 
     override suspend fun deleteCurrency()  = homeLocalDbRepo.deleteCurrency()
+    override suspend fun deleteCurrencyRate() = homeLocalDbRepo.deleteCurrencyRate()
 }

@@ -91,6 +91,7 @@ class HomeViewModel @Inject constructor(
             val diff = System.currentTimeMillis() - serverTimestamp
 
             if (diff > AppConstants.DEVICE_CACHE_EXPIRY) {
+                homeRepoImpl.deleteCurrencyRate()
                 fetchCurrencyRate()
             }
         }

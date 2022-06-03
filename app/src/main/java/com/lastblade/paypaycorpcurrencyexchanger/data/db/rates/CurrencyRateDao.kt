@@ -12,4 +12,7 @@ interface CurrencyRateDao {
 
     @Query("select * from CurrencyRate")
     fun all() : CurrencyRate
+
+    @Query("delete from CurrencyRate")
+    fun deleteAll()
 }

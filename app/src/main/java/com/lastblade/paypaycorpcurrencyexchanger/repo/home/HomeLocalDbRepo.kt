@@ -8,9 +8,9 @@ interface HomeLocalDbRepo {
     fun dbObserveAllCurrencies(): LiveData<Currencies>
     suspend fun allCurrenciesDb(): Currencies
     suspend fun insert(currencies: Currencies)
+    suspend fun deleteCurrency()
 
     fun dbAllRates(): CurrencyRate
     suspend fun insert(rate: CurrencyRate)
-
-    suspend fun deleteCurrency()
+    suspend fun deleteCurrencyRate()
 }

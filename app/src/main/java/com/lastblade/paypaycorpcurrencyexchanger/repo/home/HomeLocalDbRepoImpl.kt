@@ -38,4 +38,10 @@ class HomeLocalDbRepoImpl @Inject constructor(
             currenciesDao.deleteAll()
         }
     }
+
+    override suspend fun deleteCurrencyRate() {
+        externalScope.launch(Dispatchers.IO) {
+            currencyRateDao.deleteAll()
+        }
+    }
 }
