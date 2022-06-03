@@ -17,8 +17,14 @@ class HomeLocalDbRepoImpl @Inject constructor(
     @ApplicationScope private val externalScope: CoroutineScope,
 ) :
     HomeLocalDbRepo {
+
     override fun dbObserveAllCurrencies() = currenciesDao.allAsObserve()
     override suspend fun allCurrenciesDb() = currenciesDao.allCurrencies()
+    override suspend fun deleteCurrency() {
+        externalScope.launch {
+            currenciesDao.deleteAll()
+        }
+    }
 
     override suspend fun insert(currencies: Currencies) {
         externalScope.launch {
@@ -32,14 +38,8 @@ class HomeLocalDbRepoImpl @Inject constructor(
         }
     }
 
-    override  fun dbAllRates() = currencyRateDao.all()
+    override fun dbAllRates() = currencyRateDao.all()
     override fun dbObserveAllRates() = currencyRateDao.allObserve()
-
-    override suspend fun deleteCurrency() {
-        externalScope.launch {
-            currenciesDao.deleteAll()
-        }
-    }
 
     override suspend fun deleteCurrencyRate() {
         externalScope.launch {

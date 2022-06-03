@@ -19,6 +19,9 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val homeRepoImpl: HomeRepoImpl) :
     BaseViewModel() {
+    /**
+     * Holds the selected currency to update converted rate
+     * */
     lateinit var selectedCurrency: String
 
     val currenciesAsObserve: LiveData<Currencies> get() = homeRepoImpl.dbObserveAllCurrencies()
@@ -31,6 +34,10 @@ class HomeViewModel @Inject constructor(private val homeRepoImpl: HomeRepoImpl) 
         loadCurrencyRate()
     }
 
+    /**
+     * It load the currencies to spinner
+     * if currency database is empty then it will fetch from server
+     * */
     private fun loadCurrencies() = viewModelScope.launch(Dispatchers.IO) {
         val currencies = homeRepoImpl.allCurrenciesDb()
 
@@ -39,6 +46,9 @@ class HomeViewModel @Inject constructor(private val homeRepoImpl: HomeRepoImpl) 
         }
     }
 
+    /**
+     * Fetch currencies from server
+     * */
     private fun fetchCurrencies() = viewModelScope.launch {
         onLoading(true)
         try {
@@ -58,6 +68,12 @@ class HomeViewModel @Inject constructor(private val homeRepoImpl: HomeRepoImpl) 
         onLoading(false)
     }
 
+    /**
+     * It load the currency rate to list
+     * if currency rate database is empty then it will fetch from server
+     * It also checks 30 minute time passed from the last data fetch or not
+     * So, We also save the fetch timestamp to database for future compare
+     * */
     private fun loadCurrencyRate() = viewModelScope.launch(Dispatchers.IO) {
         val currencyRate = homeRepoImpl.dbAllRates()
 
@@ -74,6 +90,9 @@ class HomeViewModel @Inject constructor(private val homeRepoImpl: HomeRepoImpl) 
         }
     }
 
+    /**
+     * Fetch the currency rate from server
+     * */
     private fun fetchCurrencyRate() = viewModelScope.launch {
         onLoading(true)
 
@@ -97,6 +116,10 @@ class HomeViewModel @Inject constructor(private val homeRepoImpl: HomeRepoImpl) 
         onLoading(false)
     }
 
+    /**
+     * Convert exchange rate
+     * Based on a currency selection it convert rest of the currency
+     * */
     fun convertUnitRate() = viewModelScope.launch(Dispatchers.IO) {
         val toConvertedRates = mutableListOf<CurrencyUnitRate>()
 
