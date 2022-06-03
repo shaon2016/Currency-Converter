@@ -30,19 +30,35 @@ class HomeViewModel @Inject constructor(private val homeRepoImpl: HomeRepoImpl) 
     val convertedCurrencyList: LiveData<List<CurrencyUnitRate>> get() = _convertedCurrencyList
 
     init {
-        loadCurrencies()
-        loadCurrencyRate()
+        loadData()
     }
 
     /**
-     * It load the currencies to spinner
-     * if currency database is empty then it will fetch from server
+     * It load the currency rate to list and currencies to spinner
+     * if database is empty then it will fetch from server
+     * It also checks 30 minute time passed from the last data fetch or not
+     * So, We also save the fetch timestamp to database for future compare
      * */
-    private fun loadCurrencies() = viewModelScope.launch(Dispatchers.IO) {
+    private fun loadData() = viewModelScope.launch(Dispatchers.IO) {
         val currencies = homeRepoImpl.allCurrenciesDb()
+        val currencyRate = homeRepoImpl.dbAllRates()
 
-        if (currencies?.currencies == null || currencies.currencies.isEmpty()) {
+        if ((currencies?.currencies == null || currencies.currencies.isEmpty())
+            && (currencyRate?.rates == null || currencyRate.rates.isEmpty())
+        ) {
             fetchCurrencies()
+            fetchCurrencyRate()
+        } else {
+            val serverTimestamp = currencyRate.timestamp ?: 0L
+            val diff = System.currentTimeMillis() - serverTimestamp
+
+            if (diff > AppConstants.DEVICE_CACHE_EXPIRY) {
+                homeRepoImpl.deleteCurrency()
+                homeRepoImpl.deleteCurrencyRate()
+
+                fetchCurrencies()
+                fetchCurrencyRate()
+            }
         }
     }
 
@@ -66,28 +82,6 @@ class HomeViewModel @Inject constructor(private val homeRepoImpl: HomeRepoImpl) 
         }
 
         onLoading(false)
-    }
-
-    /**
-     * It load the currency rate to list
-     * if currency rate database is empty then it will fetch from server
-     * It also checks 30 minute time passed from the last data fetch or not
-     * So, We also save the fetch timestamp to database for future compare
-     * */
-    private fun loadCurrencyRate() = viewModelScope.launch(Dispatchers.IO) {
-        val currencyRate = homeRepoImpl.dbAllRates()
-
-        if (currencyRate?.rates == null || currencyRate.rates.isEmpty()) {
-            fetchCurrencyRate()
-        } else {
-            val serverTimestamp = currencyRate.timestamp ?: 0L
-            val diff = System.currentTimeMillis() - serverTimestamp
-
-            if (diff > AppConstants.DEVICE_CACHE_EXPIRY) {
-                homeRepoImpl.deleteCurrencyRate()
-                fetchCurrencyRate()
-            }
-        }
     }
 
     /**
