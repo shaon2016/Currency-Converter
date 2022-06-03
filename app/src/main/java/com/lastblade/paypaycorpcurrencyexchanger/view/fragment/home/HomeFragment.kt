@@ -47,9 +47,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         vm.isLoading.observe(this) {
             it?.let {
                 if (it) {
-                    binding.pb.visibility = View.VISIBLE
+                    progressBarHandler.show()
                 } else
-                    binding.pb.visibility = View.GONE
+                    progressBarHandler.hide()
             }
         }
         vm.errorMessage.observe(this) {
