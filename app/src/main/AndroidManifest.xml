@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lastblade.payseracurrencyexchanger">
+    package="com.lastblade.paypaycorpcurrencyexchanger">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:usesCleartextTraffic="true"
-        android:name=".MyApp"
+        android:name="com.lastblade.paypaycorpcurrencyexchanger.MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PayseraCurrencyExchanger">
         <activity
-            android:name=".view.activity.MainActivity"
+            android:name="com.lastblade.paypaycorpcurrencyexchanger.view.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

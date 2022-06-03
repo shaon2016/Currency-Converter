@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.lastblade.payseracurrencyexchanger.view.fragment.home.HomeFragment"
+        android:name="com.lastblade.paypaycorpcurrencyexchanger.view.fragment.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
 </navigation>
