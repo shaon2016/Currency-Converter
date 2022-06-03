@@ -20,7 +20,7 @@ class HomeRepoImpl @Inject constructor(
     }
 
     override  fun dbAllRates() = homeLocalDbRepo.dbAllRates()
-
+    override fun dbObserveAllRates() = homeLocalDbRepo.dbObserveAllRates()
 
     override suspend fun getCurrencies() = homeRemoteRepo.getCurrencies()
 

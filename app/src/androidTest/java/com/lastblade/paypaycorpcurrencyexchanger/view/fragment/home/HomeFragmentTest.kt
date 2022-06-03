@@ -34,17 +34,15 @@ class HomeFragmentTest {
     @get:Rule
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
-    @Before
-    fun init() {
-        hiltRule.inject()
-    }
-
-    lateinit var mockWebServer: MockWebServer
+    private lateinit var mockWebServer: MockWebServer
 
     @Before
     fun setup() {
+        hiltRule.inject()
         mockWebServer = MockWebServer()
         mockWebServer.start(8080)
+
+        loadRequiredDataToHomeFragmentBeforeTest()
     }
 
     @After
@@ -61,7 +59,6 @@ class HomeFragmentTest {
     @Test
     fun insertAmountAndScrollToLastListPosition() {
         runTest {
-            loadRequiredDataToHomeFragmentBeforeTest()
 
             Espresso.onView(withId(R.id.evAmount)).perform(ViewActions.typeText("28.36"))
 

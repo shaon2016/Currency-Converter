@@ -1,5 +1,6 @@
 package com.lastblade.paypaycorpcurrencyexchanger.data.db.rates
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -12,6 +13,9 @@ interface CurrencyRateDao {
 
     @Query("select * from CurrencyRate")
     fun all() : CurrencyRate
+
+    @Query("select * from CurrencyRate")
+    fun allObserve() : LiveData<CurrencyRate>
 
     @Query("delete from CurrencyRate")
     fun deleteAll()

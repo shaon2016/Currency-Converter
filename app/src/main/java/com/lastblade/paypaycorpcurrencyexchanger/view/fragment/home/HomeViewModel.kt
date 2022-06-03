@@ -1,32 +1,24 @@
 package com.lastblade.paypaycorpcurrencyexchanger.view.fragment.home
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
+import com.lastblade.paypaycorpcurrencyexchanger.data.Result
 import com.lastblade.paypaycorpcurrencyexchanger.data.db.currencies.Currencies
 import com.lastblade.paypaycorpcurrencyexchanger.data.db.rates.CurrencyRate
-import com.lastblade.paypaycorpcurrencyexchanger.data.model.CurrenciesResponse
-import com.lastblade.paypaycorpcurrencyexchanger.data.model.CurrencyRateResponse
 import com.lastblade.paypaycorpcurrencyexchanger.data.model.CurrencyUnitRate
 import com.lastblade.paypaycorpcurrencyexchanger.repo.home.HomeRepoImpl
-import com.lastblade.paypaycorpcurrencyexchanger.util.FileUtils
+import com.lastblade.paypaycorpcurrencyexchanger.util.AppConstants
 import com.lastblade.paypaycorpcurrencyexchanger.util.serializeToMap
 import com.lastblade.paypaycorpcurrencyexchanger.view.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import com.lastblade.paypaycorpcurrencyexchanger.data.Result
-import com.lastblade.paypaycorpcurrencyexchanger.util.AppConstants
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val homeRepoImpl: HomeRepoImpl,
-    @ApplicationContext val context: Context,
-) : BaseViewModel() {
+class HomeViewModel @Inject constructor(private val homeRepoImpl: HomeRepoImpl) :
+    BaseViewModel() {
     lateinit var selectedCurrency: String
 
     val currenciesAsObserve: LiveData<Currencies> get() = homeRepoImpl.dbObserveAllCurrencies()
@@ -37,21 +29,6 @@ class HomeViewModel @Inject constructor(
     init {
         loadCurrencies()
         loadCurrencyRate()
-    }
-
-    fun loadFakeCurrencies() {
-        //        val data = getCurrencyList(context)
-//
-//        val map = data.serializeToMap()
-//
-//        viewModelScope.launch {
-//            homeRepoImpl.insert(Currencies(currencies = map as HashMap<String, String>))
-//        }
-    }
-
-    fun getCurrencyList(context: Context): CurrenciesResponse {
-        return Gson().fromJson(FileUtils.readFileInStringFromRaw(context,
-            "sample_currency_list_response.json"), CurrenciesResponse::class.java)
     }
 
     private fun loadCurrencies() = viewModelScope.launch(Dispatchers.IO) {
@@ -97,16 +74,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun fakeCurrencyRate() {
-        val data = getCurrencyRates(context)
-        val map = data.rates.serializeToMap()
-
-        viewModelScope.launch {
-            homeRepoImpl.insert(CurrencyRate(timestamp = data.timestamp, base = data.base,
-                rates = map as HashMap<String, Double>))
-        }
-    }
-
     private fun fetchCurrencyRate() = viewModelScope.launch {
         onLoading(true)
 
@@ -128,11 +95,6 @@ class HomeViewModel @Inject constructor(
         }
 
         onLoading(false)
-    }
-
-    fun getCurrencyRates(context: Context): CurrencyRateResponse {
-        return Gson().fromJson(FileUtils.readFileInStringFromRaw(context,
-            "sample_currency_rates_response.json"), CurrencyRateResponse::class.java)
     }
 
     fun convertUnitRate() = viewModelScope.launch(Dispatchers.IO) {

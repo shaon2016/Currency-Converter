@@ -1,5 +1,6 @@
 package com.lastblade.paypaycorpcurrencyexchanger.repo.home
 
+import androidx.lifecycle.LiveData
 import com.lastblade.paypaycorpcurrencyexchanger.data.db.currencies.Currencies
 import com.lastblade.paypaycorpcurrencyexchanger.data.db.currencies.CurrenciesDao
 import com.lastblade.paypaycorpcurrencyexchanger.data.db.rates.CurrencyRate
@@ -20,27 +21,28 @@ class HomeLocalDbRepoImpl @Inject constructor(
     override suspend fun allCurrenciesDb() = currenciesDao.allCurrencies()
 
     override suspend fun insert(currencies: Currencies) {
-        externalScope.launch(Dispatchers.IO) {
+        externalScope.launch {
             currenciesDao.insert(currencies)
         }
     }
 
     override suspend fun insert(rate: CurrencyRate) {
-        externalScope.launch(Dispatchers.IO) {
+        externalScope.launch {
             currencyRateDao.insert(rate)
         }
     }
 
     override  fun dbAllRates() = currencyRateDao.all()
+    override fun dbObserveAllRates() = currencyRateDao.allObserve()
 
     override suspend fun deleteCurrency() {
-        externalScope.launch(Dispatchers.IO) {
+        externalScope.launch {
             currenciesDao.deleteAll()
         }
     }
 
     override suspend fun deleteCurrencyRate() {
-        externalScope.launch(Dispatchers.IO) {
+        externalScope.launch {
             currencyRateDao.deleteAll()
         }
     }

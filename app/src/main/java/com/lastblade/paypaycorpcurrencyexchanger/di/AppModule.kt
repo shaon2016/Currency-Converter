@@ -23,11 +23,12 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 open class AppModule {
     open var baseUrl = ApiEndPoint.BASE_URL
+    open var isDbForTest = false
 
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
@@ -92,7 +93,7 @@ open class AppModule {
     @Singleton
     @LocalRoomHelper
     fun provideRoomHelper(@ApplicationContext context: Context): RoomHelper {
-        return RoomHelper(context)
+        return RoomHelper(context, isDbForTest)
     }
 
 }
